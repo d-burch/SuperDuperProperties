@@ -1,0 +1,38 @@
+﻿@model IEnumerable<PropertyManagement.Models.Owner>
+
+@{
+    ViewData["Title"] = "Manage Properties";
+}
+<h1>Manage Rentals</h1>
+
+<div class="cta">
+    <a class="add-new" asp-area="" asp-controller="Properties" asp-action="Index">Add&nbsp;New</a>
+</div>
+
+<div class="property-container">
+    @foreach (var owner in Model)
+    {
+        @foreach (var property in owner.Properties)
+        {
+            <div class="individual-property">
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => property.AddressLine1)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => property.AddressLine2)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => property.City)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => property.StateCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => property.ZipCode)
+                </td>
+            </tr>
+            </div>
+        }
+    }
+</div>

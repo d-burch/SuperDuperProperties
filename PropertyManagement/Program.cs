@@ -1,6 +1,9 @@
+using Dapper.FluentMap;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using PropertyManagement.Data;
+using PropertyManagement.Data.Mapping;
+
 namespace PropertyManagement
 {
     public class Program
@@ -36,6 +39,12 @@ namespace PropertyManagement
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+
+            // Manually map column aliases for Dapper
+            FluentMapper.Initialize(config =>
+            {
+                config.AddMap(new OwnerMap());
+            });
 
             app.Run();
         }
