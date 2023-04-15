@@ -1,0 +1,66 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 45px;
+}
+
+.container .main-section {
+    #background-image: url("../assets/suburbs.jpg");
+    #padding-bottom: 100%;
+}
+
+.cta {
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.cta a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: #40a558;
+    border-radius: 5px;
+    text-decoration: none;
+    color: white;
+    cursor: pointer;
+    box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2)
+}
+
+.cta a.cta-button {
+    width: 170px;
+    height: 65px;
+    margin-top: 100px;
+}
+
+.cta a.add-new {
+    width: 140px;
+    height: 45px;
+    margin-top: 35px;
+}
+
+.cta a:link {
+    color: white;
+}
+
+.property-container {
+    background-color: rgba(0,0,0,.1);
+    min-height: 65vh;
+    padding: 15px;
+}
+
