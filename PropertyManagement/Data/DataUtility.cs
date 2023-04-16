@@ -12,6 +12,7 @@ namespace PropertyManagement.Data
         private static List<Lease> FilterLeases(List<Lease> leases)
         {
             return leases.Select(lease => lease).Distinct().ToList();
+                //.Where(lease => lease.StartDate < DateTime.Now && lease.EndDate > DateTime.Now).ToList();
         }
 
         internal static void FilterPropertiesAndLeases(List<Owner> owners)
@@ -25,6 +26,5 @@ namespace PropertyManagement.Data
                 owner.Properties = FilterProperties(owner.Properties);
             }
         }
-
     }
 }

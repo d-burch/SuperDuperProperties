@@ -30,38 +30,40 @@ namespace PropertyManagement.Data
                 allOwners = connection.Query<Owner, Models.Property, Lease, Renter, Owner>(sqlGetAllPropertiesSproc,
                     (owner, property, lease, renter) =>
                     {
-                        Owner ownerResult;
-                        Property propertyResult;
-                        Lease leaseResult;
+                        //if (owner == null) return new Owner();
 
-                        if (!ownerDictionary.TryGetValue(owner.OwnerID, out ownerResult))
+                        Owner? ownerResult = null;
+                        Property? propertyResult = null;
+                        Lease? leaseResult = null;
+
+                        if (owner != null && !ownerDictionary.TryGetValue(owner.OwnerID, out ownerResult))
                         {
                             ownerResult = owner;
                             ownerResult.Properties = new List<Property>();
                             ownerDictionary.Add(ownerResult.OwnerID, ownerResult);
                         }
-                        if (!propertyDictionary.TryGetValue(property.PropertyID, out propertyResult))
+                        if (property != null && !propertyDictionary.TryGetValue(property.PropertyID, out propertyResult))
                         {
                             propertyResult = property;
                             propertyResult.Leases = new List<Lease>();
                             propertyDictionary.Add(propertyResult.PropertyID, propertyResult);
                         }
-                        if (!leaseDictionary.TryGetValue(lease.LeaseID, out leaseResult))
+                        if (lease != null && !leaseDictionary.TryGetValue(lease.LeaseID, out leaseResult))
                         {
                             leaseResult = lease;
                             leaseResult.Renters = new List<Renter>();
                             leaseDictionary.Add(leaseResult.LeaseID, leaseResult);
                         }
 
-                        if (leaseResult.Renters != null && renter != null)
+                        if (leaseResult?.Renters != null && renter != null)
                         {
                             leaseResult.Renters.Add(renter);
                         }
-                        if (propertyResult.Leases != null && leaseResult != null)
+                        if (propertyResult?.Leases != null && leaseResult != null)
                         {
                             propertyResult.Leases.Add(leaseResult);
                         }
-                        if (ownerResult.Properties != null && propertyResult != null)
+                        if (ownerResult?.Properties != null && propertyResult != null)
                         {
                             ownerResult.Properties.Add(propertyResult);
                         }
@@ -71,6 +73,8 @@ namespace PropertyManagement.Data
                     splitOn: "PropertyID, LeaseID, RenterID") // AS {name} works here if need be
                     .Distinct() // Distinct owners - only one owner per property allowed
                     .ToList();
+
+                allOwners.RemoveAll(owner => owner == null);
 
                 DataUtility.FilterPropertiesAndLeases(allOwners);
 

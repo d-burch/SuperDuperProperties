@@ -8,6 +8,16 @@ namespace PropertyManagement.Models
         //[Column("Property_PropertyID")]
         public int PropertyID { get; set; }
         public List<Lease> Leases { get; set; } = new List<Lease>();
+        public Lease? CurrentLease
+        {
+            get
+            {
+                if (Leases == null) return null;
+
+                return Leases.Where(lease => lease.StartDate < DateTime.Now && lease.EndDate > DateTime.Now).FirstOrDefault();
+            }
+            set { CurrentLease = value; }
+        }
         public string AddressLine1 { get; set; }
         public string? AddressLine2 { get; set; }
         public string City { get; set; }

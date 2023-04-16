@@ -15,23 +15,110 @@
         @foreach (var property in owner.Properties)
         {
             <div class="individual-property">
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => property.AddressLine1)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => property.AddressLine2)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => property.City)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => property.StateCode)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => property.ZipCode)
-                </td>
-            </tr>
+                <div>
+                    <span>
+                        @Html.DisplayFor(x => property.AddressLine1),
+                    </span>
+                    @if (property.AddressLine2 != null)
+                    {
+                        <span>
+                            @Html.DisplayFor(x => property.AddressLine2),
+                        </span>
+                    }
+                    <span>
+                        @Html.DisplayFor(x => property.City),
+                    </span>
+                    <span>
+                        @Html.DisplayFor(x => property.StateCode),
+                    </span>
+                    <span>
+                        @Html.DisplayFor(x => property.ZipCode)
+                    </span>
+                    @if (property.UnitNumber != null)
+                    {
+                        <span>
+                        Unit# @Html.DisplayFor(x => property.UnitNumber)
+                        </span>
+                    }
+                </div>
+                <div>
+                    <span>
+                        Bedrooms: @Html.DisplayFor(x => property.Bedrooms)
+                    </span>
+                    <span>
+                        Bathrooms: @Html.DisplayFor(x => property.Bathrooms)
+                    </span>
+                    <span>
+                        Pets Allowed: @(property.PetsAllowed == true ? "Yes" : "No")
+                    </span>
+                    <span>
+                        Washer/Dryer: @(property.WasherDryer == true ? "Yes" : "No")
+                    </span>
+                    <span>
+                        Dishwasher: @(property.Dishwasher == true ? "Yes" : "No")
+                    </span>
+                </div>
+                <div>
+                    <h5 class="property-subtitle">Owner</h5>
+                    <span>
+                        @Html.DisplayFor(x => owner.FirstName)
+                    </span>
+                    <span>
+                        @Html.DisplayFor(x => owner.LastName)
+                    </span>
+                    <span>
+                        @Html.DisplayFor(x => owner.Email)
+                    </span>
+                    <span>
+                        @Html.DisplayFor(modelItem => owner.Phone)
+                    </span>
+                </div>
+                <div>
+                    <h5 class="property-subtitle">Current Lease</h5>
+                    @if (property.CurrentLease == null)
+                    {
+                        <span class="vacant">Vacant</span>
+                    } else
+                    {
+                        <span>
+                            @Html.DisplayFor(x => property.CurrentLease.StartDate) - @Html.DisplayFor(x => property.CurrentLease.EndDate)
+                        </span>
+                        <span>
+                            Monthly Rent: @Html.DisplayFor(x => property.CurrentLease.MonthlyRent)
+                        </span>
+                        <span>
+                            Rent Due: @Html.DisplayFor(x => property.CurrentLease.RentOutstanding)
+                        </span>
+                        <span>
+                            Deposit Amount: @Html.DisplayFor(x => property.CurrentLease.SecurityDepositAmount)
+                        </span>
+                        <span>
+                            Deposit Paid: @(property.CurrentLease.SecurityDepositPaid == true ? "Yes" : "No")
+                        </span>
+
+                        <div>
+                            <h5 class="property-subtitle">Renters</h5>
+
+                            @foreach (var renter in property.CurrentLease.Renters)
+                            {
+                                <div>
+                                    <span>
+                                        @Html.DisplayFor(x => renter.FirstName)
+                                    </span>
+                                    <span>
+                                        @Html.DisplayFor(x => renter.LastName)
+                                    </span>
+                                    <span>
+                                        @Html.DisplayFor(x => renter.Email)
+                                    </span>
+                                    <span>
+                                        @Html.DisplayFor(modelItem => renter.Phone)
+                                    </span>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
             </div>
         }
     }
