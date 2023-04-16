@@ -40,7 +40,6 @@ namespace PropertyManagement
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
-            // Manually map column aliases for Dapper
             FluentMapper.Initialize(config =>
             {
                 config.AddMap(new OwnerMap());

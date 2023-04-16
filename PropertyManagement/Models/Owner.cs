@@ -1,5 +1,4 @@
-﻿using NuGet.Protocol.Plugins;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace PropertyManagement.Models
 {
@@ -7,7 +6,7 @@ namespace PropertyManagement.Models
     {
         [Key]
         public int OwnerID { get; set; }
-        public IEnumerable<Property> Properties { get; set; }
+        public List<Property> Properties { get; set; } = new List<Property>();
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }

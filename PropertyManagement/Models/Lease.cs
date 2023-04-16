@@ -5,7 +5,7 @@ namespace PropertyManagement.Models
     public class Lease
     {
         public int LeaseID { get; set; }
-        public IEnumerable<Renter> Renters { get; set; }
+        public List<Renter> Renters { get; set; } = new List<Renter>();
 
         [DataType(DataType.Date)]
         public DateTime StartDate { get; set; }

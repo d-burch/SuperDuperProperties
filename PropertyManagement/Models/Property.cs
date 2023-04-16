@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace PropertyManagement.Models
 {
@@ -9,7 +7,7 @@ namespace PropertyManagement.Models
         [Key]
         //[Column("Property_PropertyID")]
         public int PropertyID { get; set; }
-        public IEnumerable<Lease> Leases { get; set; }
+        public List<Lease> Leases { get; set; } = new List<Lease>();
         public string AddressLine1 { get; set; }
         public string? AddressLine2 { get; set; }
         public string City { get; set; }
