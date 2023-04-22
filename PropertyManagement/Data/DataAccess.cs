@@ -1,6 +1,7 @@
 ﻿using PropertyManagement.Models;
 using Dapper;
 using Microsoft.Data.SqlClient;
+using System.Data;
 
 namespace PropertyManagement.Data
 {
@@ -9,6 +10,8 @@ namespace PropertyManagement.Data
         private const string connectionString =
             "Server=(localdb)\\mssqllocaldb;Database=ReallyGoodPropertyManagement;Trusted_Connection=True;MultipleActiveResultSets=true";
         private const string sqlGetAllPropertiesSproc = "GetAllProperties";
+        private const string sqlGetRenterSproc = "GetRenter";
+        private const string sqlUpdateRenterSproc = "UpdateRenter";
         private const string sqlForeignKeys =
             "SELECT o.OwnerID, PropertyID, p.Property_OwnerId, l.LeaseID, l.Lease_PropertyId, RenterID, r.Renter_LeaseId" +
             " FROM Owner AS o" +
@@ -82,6 +85,59 @@ namespace PropertyManagement.Data
 
                 return allOwners;
             }
+        }
+
+        internal static Renter GetRenter(int id)
+        {
+            using (var connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    var param = new { RenterId = id };
+                    var renter = connection
+                        .Query<Renter>(sqlGetRenterSproc, param, commandType: CommandType.StoredProcedure)
+                        .FirstOrDefault();
+
+                    if (renter == null)
+                    {
+                        throw new System.Data.RowNotInTableException(innerException: null, message: $"Renter not found for id {id}");
+                    }
+
+                    return renter;
+                }
+                catch (System.Data.RowNotInTableException ex) {
+                    System.Console.WriteLine(ex.Message);
+                    throw;
+                }
+            }
+        }
+
+        internal static bool UpdateRenter(Renter renter)
+        {
+            int rowsAffected = 0;
+
+            using (var connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    var parameters = new {
+                        RenterId = renter.RenterID,
+                        FirstName = renter.FirstName,
+                        LastName = renter.LastName,
+                        Email = renter.Email,
+                        Phone = renter.Phone
+                    };
+                    rowsAffected = connection
+                        .Execute(sqlUpdateRenterSproc, parameters, commandType: CommandType.StoredProcedure);
+                }
+                catch (RowNotInTableException ex)
+                {
+                    System.Console.WriteLine(ex.Message);
+                    throw;
+                }
+            }
+
+            return rowsAffected > 0;
         }
 
         internal static Dictionary<string, List<Int32?>> GetAllForeignKeys()

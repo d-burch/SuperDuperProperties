@@ -16,6 +16,7 @@
         {
             <div class="individual-property">
                 <div>
+                    <span>@Html.DisplayFor(x => property.PropertyID)</span>
                     <span>
                         @Html.DisplayFor(x => property.AddressLine1),
                     </span>
@@ -60,6 +61,7 @@
                 </div>
                 <div>
                     <h5 class="property-subtitle">Owner</h5>
+                    <span>@Html.DisplayFor(x => owner.OwnerID)</span>
                     <span>
                         @Html.DisplayFor(x => owner.FirstName)
                     </span>
@@ -80,6 +82,7 @@
                         <span class="vacant">Vacant</span>
                     } else
                     {
+                        <span>@Html.DisplayFor(x => property.CurrentLease.LeaseID)</span>
                         <span>
                             @Html.DisplayFor(x => property.CurrentLease.StartDate) - @Html.DisplayFor(x => property.CurrentLease.EndDate)
                         </span>
@@ -102,6 +105,7 @@
                             @foreach (var renter in property.CurrentLease.Renters)
                             {
                                 <div>
+                                    <span>@Html.DisplayFor(x => renter.RenterID)</span>
                                     <span>
                                         @Html.DisplayFor(x => renter.FirstName)
                                     </span>
@@ -113,6 +117,9 @@
                                     </span>
                                     <span>
                                         @Html.DisplayFor(modelItem => renter.Phone)
+                                    </span>
+                                    <span>
+                                        <a asp-controller="Renter" asp-action="EditRenter" asp-route-id="@renter.RenterID">Edit</a>
                                     </span>
                                 </div>
                             }
