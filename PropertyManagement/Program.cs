@@ -1,6 +1,5 @@
 using Dapper.FluentMap;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using PropertyManagement.Data;
 using PropertyManagement.Data.Mapping;
 
@@ -11,9 +10,6 @@ namespace PropertyManagement
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            builder.Services.AddDbContext<PropertyManagementContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("PropertyManagementContext") ??
-                    throw new InvalidOperationException("Connection string 'PropertyManagementContext' not found.")));
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
