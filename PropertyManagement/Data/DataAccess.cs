@@ -2,6 +2,7 @@
 using Dapper;
 using Microsoft.Data.SqlClient;
 using System.Data;
+using System.Reflection;
 
 namespace PropertyManagement.Data
 {
@@ -11,7 +12,7 @@ namespace PropertyManagement.Data
             "Server=(localdb)\\mssqllocaldb;Database=ReallyGoodPropertyManagement;Trusted_Connection=True;MultipleActiveResultSets=true";
         private const string sqlGetAllPropertiesSproc = "GetAllProperties";
         private const string sqlGetRenterSproc = "GetRenter";
-        private const string sqlUpdateRenterSproc = "UpdateRenter";
+        private const string sqlUpdateSproc = "Update";
         private const string sqlForeignKeys =
             "SELECT o.OwnerID, PropertyID, p.Property_OwnerId, l.LeaseID, l.Lease_PropertyId, RenterID, r.Renter_LeaseId" +
             " FROM Owner AS o" +
@@ -112,6 +113,44 @@ namespace PropertyManagement.Data
             }
         }
 
+        internal static bool Update<T>(T entity)
+        {
+            int rowsAffected = 0;
+
+            using (var connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    var parameters = GetParameters<T>(entity);
+                    var sql = sqlUpdateSproc + typeof(T).Name;
+
+                    rowsAffected = connection
+                        .Execute(sql, parameters, commandType: CommandType.StoredProcedure);
+                }
+                catch (RowNotInTableException ex)
+                {
+                    System.Console.WriteLine(ex.Message);
+                    throw;
+                }
+            }
+
+            return rowsAffected > 0;
+        }
+
+        internal static Dictionary<string, object> GetParameters<T>(T entity)
+        {
+            List<PropertyInfo> typeProperties = typeof(T).GetProperties().ToList();
+            var parameters = new Dictionary<string, object>();
+
+            foreach (var property in typeProperties)
+            {
+                parameters.Add(property.Name, property.GetValue(entity));
+            }
+
+            return parameters;
+        }
+
+        /*
         internal static bool UpdateRenter(Renter renter)
         {
             int rowsAffected = 0;
@@ -139,6 +178,7 @@ namespace PropertyManagement.Data
 
             return rowsAffected > 0;
         }
+        */
 
         internal static Dictionary<string, List<Int32?>> GetAllForeignKeys()
         {

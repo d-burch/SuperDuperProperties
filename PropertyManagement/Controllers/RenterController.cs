@@ -21,7 +21,7 @@ namespace PropertyManagement.Controllers
 
         public async Task<IActionResult> UpdateRenter(Renter renter)
         {
-            var updateApplied = DataAccess.UpdateRenter(renter);
+            var updateApplied = DataAccess.Update<Renter>(renter);
 
             if (updateApplied)
             {
