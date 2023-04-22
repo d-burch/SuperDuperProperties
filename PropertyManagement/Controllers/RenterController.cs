@@ -21,10 +21,14 @@ namespace PropertyManagement.Controllers
 
         public async Task<IActionResult> UpdateRenter(Renter renter)
         {
+            var updateApplied = DataAccess.UpdateRenter(renter);
 
-            DataAccess.UpdateRenter(renter);
+            if (updateApplied)
+            {
+                return RedirectToAction("Index", "Properties");
+            }
 
-            return View();
+            return View("EditRenter", renter); // Nothing changed, stay on Edit page
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
