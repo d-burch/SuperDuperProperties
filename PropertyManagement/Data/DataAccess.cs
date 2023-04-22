@@ -12,6 +12,7 @@ namespace PropertyManagement.Data
             "Server=(localdb)\\mssqllocaldb;Database=ReallyGoodPropertyManagement;Trusted_Connection=True;MultipleActiveResultSets=true";
         private const string sqlGetAllPropertiesSproc = "GetAllProperties";
         private const string sqlGetRenterSproc = "GetRenter";
+        private const string sqlGetSproc = "Get";
         private const string sqlUpdateSproc = "Update";
         private const string sqlForeignKeys =
             "SELECT o.OwnerID, PropertyID, p.Property_OwnerId, l.LeaseID, l.Lease_PropertyId, RenterID, r.Renter_LeaseId" +
@@ -88,23 +89,29 @@ namespace PropertyManagement.Data
             }
         }
 
-        internal static Renter GetRenter(int id)
+        internal static T Get<T>(int id)
         {
             using (var connection = new SqlConnection(connectionString))
             {
                 try
                 {
-                    var param = new { RenterId = id };
-                    var renter = connection
-                        .Query<Renter>(sqlGetRenterSproc, param, commandType: CommandType.StoredProcedure)
+                    var typeName = typeof(T).Name;
+                    var idFieldName = typeName + "ID";
+                    var param = new DynamicParameters();
+                    param.Add(idFieldName, id);
+                    var sql = sqlGetSproc + typeName;
+
+                    var result = connection
+                        .Query<T>(sql, param, commandType: CommandType.StoredProcedure)
                         .FirstOrDefault();
 
-                    if (renter == null)
+                    if (result == null)
                     {
-                        throw new System.Data.RowNotInTableException(innerException: null, message: $"Renter not found for id {id}");
+                        throw new System.Data.RowNotInTableException(innerException: null,
+                            message: $"{typeName} not found for id {id}");
                     }
 
-                    return renter;
+                    return result;
                 }
                 catch (System.Data.RowNotInTableException ex) {
                     System.Console.WriteLine(ex.Message);
@@ -144,7 +151,11 @@ namespace PropertyManagement.Data
 
             foreach (var property in typeProperties)
             {
-                parameters.Add(property.Name, property.GetValue(entity));
+                // Don't add Lists and other types
+                if(property.PropertyType.Name != "List`1")
+                {
+                    parameters.Add(property.Name, property.GetValue(entity));
+                }
             }
 
             return parameters;

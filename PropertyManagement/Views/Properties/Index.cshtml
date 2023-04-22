@@ -82,22 +82,27 @@
                         <span class="vacant">Vacant</span>
                     } else
                     {
-                        <span>@Html.DisplayFor(x => property.CurrentLease.LeaseID)</span>
-                        <span>
-                            @Html.DisplayFor(x => property.CurrentLease.StartDate) - @Html.DisplayFor(x => property.CurrentLease.EndDate)
-                        </span>
-                        <span>
-                            Monthly Rent: @Html.DisplayFor(x => property.CurrentLease.MonthlyRent)
-                        </span>
-                        <span>
-                            Rent Due: @Html.DisplayFor(x => property.CurrentLease.RentOutstanding)
-                        </span>
-                        <span>
-                            Deposit Amount: @Html.DisplayFor(x => property.CurrentLease.SecurityDepositAmount)
-                        </span>
-                        <span>
-                            Deposit Paid: @(property.CurrentLease.SecurityDepositPaid == true ? "Yes" : "No")
-                        </span>
+                        <div>
+                            <span>@Html.DisplayFor(x => property.CurrentLease.LeaseID)</span>
+                            <span>
+                                @Html.DisplayFor(x => property.CurrentLease.StartDate) - @Html.DisplayFor(x => property.CurrentLease.EndDate)
+                            </span>
+                            <span>
+                                Monthly Rent: @Html.DisplayFor(x => property.CurrentLease.MonthlyRent)
+                            </span>
+                            <span>
+                                Rent Due: @Html.DisplayFor(x => property.CurrentLease.RentOutstanding)
+                            </span>
+                            <span>
+                                Deposit Amount: @Html.DisplayFor(x => property.CurrentLease.SecurityDepositAmount)
+                            </span>
+                            <span>
+                                Deposit Paid: @(property.CurrentLease.SecurityDepositPaid == true ? "Yes" : "No")
+                            </span>
+                            <span>
+                                <a asp-controller="Lease" asp-action="EditLease" asp-route-id="@property.CurrentLease.LeaseID">Edit</a>
+                            </span>
+                        </div>
 
                         <div>
                             <h5 class="property-subtitle">Renters</h5>

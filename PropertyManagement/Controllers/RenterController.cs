@@ -14,7 +14,7 @@ namespace PropertyManagement.Controllers
 
         public async Task<IActionResult> EditRenter(int id)
         {
-            var renter = DataAccess.GetRenter(id);
+            var renter = DataAccess.Get<Renter>(id);
 
             return View(renter);
         }

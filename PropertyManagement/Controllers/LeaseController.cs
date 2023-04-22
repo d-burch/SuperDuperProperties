@@ -14,27 +14,14 @@ namespace PropertyManagement.Controllers
 
         public async Task<IActionResult> EditLease(int id)
         {
-            var lease = new Lease
-            {
-                LeaseID = id,
-                StartDate = DateTime.Now,
-                EndDate = DateTime.Now,
-                MonthlyRent = 2000m,
-                RentOutstanding = 0,
-                SecurityDepositAmount = 0,
-                SecurityDepositCharges = 0,
-                SecurityDepositPaid = true,
-                SecurityDepositReturned = false
-            };
-            //var lease = DataAccess.GetLease(id);
+            var lease = DataAccess.Get<Lease>(id);
 
             return View(lease);
         }
 
-        /*
         public async Task<IActionResult> UpdateLease(Lease lease)
         {
-            var updateApplied = DataAccess.UpdateLease(lease);
+            var updateApplied = DataAccess.Update<Lease>(lease);
 
             if (updateApplied)
             {
@@ -43,7 +30,6 @@ namespace PropertyManagement.Controllers
 
             return View("EditLease", lease); // Nothing changed, stay on Edit page
         }
-        */
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

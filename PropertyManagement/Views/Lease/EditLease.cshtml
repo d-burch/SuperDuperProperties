@@ -1,0 +1,55 @@
+﻿@model PropertyManagement.Models.Lease
+
+@{
+    ViewData["Title"] = "Lease";
+}
+
+<h2>Lease</h2>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="UpdateLease" asp-for="Lease">
+            <input asp-for="LeaseID" class="hidden" />
+            <div class="form-group">
+                <label asp-for="StartDate" class="control-label"></label>
+                <input asp-for="StartDate" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="EndDate" class="control-label"></label>
+                <input asp-for="EndDate" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="MonthlyRent" class="control-label"></label>
+                <input asp-for="MonthlyRent" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="RentOutstanding" class="control-label"></label>
+                <input asp-for="RentOutstanding" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="SecurityDepositAmount" class="control-label"></label>
+                <input asp-for="SecurityDepositAmount" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="SecurityDepositPaid" class="control-label"></label>
+                <input asp-for="SecurityDepositPaid" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="SecurityDepositCharges" class="control-label"></label>
+                <input asp-for="SecurityDepositCharges" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="SecurityDepositReturned" class="control-label"></label>
+                <input asp-for="SecurityDepositReturned" class="form-control" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
