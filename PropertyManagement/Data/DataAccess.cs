@@ -3,6 +3,7 @@ using Dapper;
 using Microsoft.Data.SqlClient;
 using System.Data;
 using System.Reflection;
+using Microsoft.IdentityModel.Tokens;
 
 namespace PropertyManagement.Data
 {
@@ -13,6 +14,8 @@ namespace PropertyManagement.Data
         private const string sqlGetAllPropertiesSproc = "GetAllProperties";
         private const string sqlGetSproc = "Get";
         private const string sqlUpdateSproc = "Update";
+        private const string sqlInsertSproc = "Insert";
+        private const string sqlGetOwnerIdByEmailSproc = "GetOwnerIdByEmail";
         private const string sqlForeignKeys =
             "SELECT o.OwnerID, PropertyID, p.Property_OwnerId, l.LeaseID, l.Lease_PropertyId, RenterID, r.Renter_LeaseId" +
             " FROM Owner AS o" +
@@ -88,6 +91,33 @@ namespace PropertyManagement.Data
             }
         }
 
+        internal static int GetOwnerIdByEmail(string email)
+        {
+            if (email.IsNullOrEmpty()) return 0;
+
+            using (var connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    var result = connection
+                        .Query(sqlGetOwnerIdByEmailSproc, new { @Email = email }, commandType: CommandType.StoredProcedure)
+                        .FirstOrDefault();
+
+                    if (result == null)
+                    {
+                        throw new System.Data.RowNotInTableException(innerException: null,
+                            message: $"Owner not found for email {email}");
+                    }
+
+                    return result.OwnerID;
+                }
+                catch (System.Data.RowNotInTableException ex) {
+                    System.Console.WriteLine(ex.Message);
+                    throw;
+                }
+            }
+        }
+
         internal static T Get<T>(int id)
         {
             using (var connection = new SqlConnection(connectionString))
@@ -127,7 +157,7 @@ namespace PropertyManagement.Data
             {
                 try
                 {
-                    var parameters = GetParameters<T>(entity);
+                    var parameters = GetParameters<T>(entity, true, (null, null));
                     var sql = sqlUpdateSproc + typeof(T).Name;
 
                     rowsAffected = connection
@@ -143,7 +173,45 @@ namespace PropertyManagement.Data
             return rowsAffected > 0;
         }
 
-        internal static Dictionary<string, object> GetParameters<T>(T entity)
+        internal static bool Insert<T>(T entity, (int?, string) fk)
+        {
+            int rowsAffected = 0;
+
+            using (var connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    var parameters = GetParameters<T>(entity, false, fk);
+                    var sql = sqlInsertSproc + typeof(T).Name;
+
+                    rowsAffected = connection
+                        .Execute(sql, parameters, commandType: CommandType.StoredProcedure);
+
+                }
+                catch (RowNotInTableException ex)
+                {
+                    System.Console.WriteLine(ex.Message);
+                    throw;
+                }
+                catch (SqlException ex)
+                {
+                    if (ex.Message.Contains("Cannot insert the value NULL into column"))
+                    {
+                        System.Console.WriteLine(ex.Message);
+                        return false;
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+            }
+
+            return rowsAffected > 0;
+        }
+
+        // Todo: fix this signature
+        internal static Dictionary<string, object> GetParameters<T>(T entity, bool includeId, (int?, string?) fk)
         {
             List<PropertyInfo> typeProperties = typeof(T).GetProperties().ToList();
             var parameters = new Dictionary<string, object>();
@@ -151,10 +219,17 @@ namespace PropertyManagement.Data
             foreach (var property in typeProperties)
             {
                 // Dirty hack - don't add Lists and other types
-                if (property.PropertyType.IsValueType || property.PropertyType.Name == "String")
+                if ((property.PropertyType.IsValueType || property.PropertyType.Name == "String") &&
+                    (property.Name != typeof(T).Name + "ID" || includeId))
                 {
                     parameters.Add(property.Name, property.GetValue(entity));
                 }
+            }
+
+            // Add foreign key if there is one
+            if (fk.Item1 != null)
+            {
+                parameters.Add($"{typeof(T).Name}_{fk.Item2}Id", fk.Item1);
             }
 
             return parameters;

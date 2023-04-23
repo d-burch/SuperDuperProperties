@@ -2,6 +2,7 @@
 using PropertyManagement.Data;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using Microsoft.IdentityModel.Tokens;
 
 namespace PropertyManagement.Controllers
 {
@@ -33,6 +34,30 @@ namespace PropertyManagement.Controllers
 
             return View("EditProperty", property); // Nothing changed, stay on Edit page
         }
+
+        public async Task<IActionResult> AddProperty()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> InsertProperty(Property property, IFormCollection collection)
+        {
+            var ownerEmail = collection["OwnerEmail"];
+            var ownerId = DataAccess.GetOwnerIdByEmail(ownerEmail);
+
+            if (ownerId > 0)
+            {
+                var insertSuccess = DataAccess.Insert<Property>(property, (ownerId, "Owner"));
+    
+                if (insertSuccess)
+                {
+                    return RedirectToAction("Index", "Properties");
+                }
+            }
+
+            return View("AddProperty", property);
+        }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

@@ -1,15 +1,18 @@
 ﻿@model PropertyManagement.Models.Property
 
 @{
-    ViewData["Title"] = "Property";
+    ViewData["Title"] = "Add Property";
 }
 
-<h2>Property</h2>
+<h2>Add Property</h2>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="UpdateProperty" asp-for="Property">
-            <input asp-for="PropertyID" class="hidden" />
+        <form asp-action="InsertProperty" asp-for="Property">
+            <div class="form-group">
+                <label class="control-label">Owner Email Address</label>
+                <input name="OwnerEmail" class="form-control" />
+            </div>
             <div class="form-group">
                 <label asp-for="AddressLine1" class="control-label"></label>
                 <input asp-for="AddressLine1" class="form-control" />
