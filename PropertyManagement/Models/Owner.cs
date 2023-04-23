@@ -1,10 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace PropertyManagement.Models
+﻿namespace PropertyManagement.Models
 {
     public class Owner
     {
-        [Key]
         public int OwnerID { get; set; }
         public List<Property> Properties { get; set; } = new List<Property>();
         public string FirstName { get; set; }

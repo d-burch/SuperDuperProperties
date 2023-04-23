@@ -1,11 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace PropertyManagement.Models
+﻿namespace PropertyManagement.Models
 {
     public class Property
     {
-        [Key]
-        //[Column("Property_PropertyID")]
         public int PropertyID { get; set; }
         public List<Lease> Leases { get; set; } = new List<Lease>();
         public Lease? CurrentLease

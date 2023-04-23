@@ -15,6 +15,25 @@ namespace PropertyManagement.Controllers
             return View(allOwners);
         }
 
+        public async Task<IActionResult> EditProperty(int id)
+        {
+            var property = DataAccess.Get<Property>(id);
+
+            return View(property);
+        }
+
+        public async Task<IActionResult> UpdateProperty(Property property)
+        {
+            var updateApplied = DataAccess.Update<Property>(property);
+
+            if (updateApplied)
+            {
+                return RedirectToAction("Index", "Properties");
+            }
+
+            return View("EditProperty", property); // Nothing changed, stay on Edit page
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

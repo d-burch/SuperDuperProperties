@@ -1,0 +1,67 @@
+﻿@model PropertyManagement.Models.Property
+
+@{
+    ViewData["Title"] = "Property";
+}
+
+<h2>Property</h2>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="UpdateProperty" asp-for="Property">
+            <input asp-for="PropertyID" class="hidden" />
+            <div class="form-group">
+                <label asp-for="AddressLine1" class="control-label"></label>
+                <input asp-for="AddressLine1" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="AddressLine2" class="control-label"></label>
+                <input asp-for="AddressLine2" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="City" class="control-label"></label>
+                <input asp-for="City" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="StateCode" class="control-label"></label>
+                <input asp-for="StateCode" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="ZipCode" class="control-label"></label>
+                <input asp-for="ZipCode" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Bedrooms" class="control-label"></label>
+                <input asp-for="Bedrooms" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Bathrooms" class="control-label"></label>
+                <input asp-for="Bathrooms" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="PetsAllowed" class="control-label"></label>
+                <input asp-for="PetsAllowed" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="UnitNumber" class="control-label"></label>
+                <input asp-for="UnitNumber" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="WasherDryer" class="control-label"></label>
+                <input asp-for="WasherDryer" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Dishwasher" class="control-label"></label>
+                <input asp-for="Dishwasher" class="form-control" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

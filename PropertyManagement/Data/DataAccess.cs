@@ -11,7 +11,6 @@ namespace PropertyManagement.Data
         private const string connectionString =
             "Server=(localdb)\\mssqllocaldb;Database=ReallyGoodPropertyManagement;Trusted_Connection=True;MultipleActiveResultSets=true";
         private const string sqlGetAllPropertiesSproc = "GetAllProperties";
-        private const string sqlGetRenterSproc = "GetRenter";
         private const string sqlGetSproc = "Get";
         private const string sqlUpdateSproc = "Update";
         private const string sqlForeignKeys =
@@ -151,8 +150,8 @@ namespace PropertyManagement.Data
 
             foreach (var property in typeProperties)
             {
-                // Don't add Lists and other types
-                if(property.PropertyType.Name != "List`1")
+                // Dirty hack - don't add Lists and other types
+                if (property.PropertyType.IsValueType || property.PropertyType.Name == "String")
                 {
                     parameters.Add(property.Name, property.GetValue(entity));
                 }
@@ -160,36 +159,6 @@ namespace PropertyManagement.Data
 
             return parameters;
         }
-
-        /*
-        internal static bool UpdateRenter(Renter renter)
-        {
-            int rowsAffected = 0;
-
-            using (var connection = new SqlConnection(connectionString))
-            {
-                try
-                {
-                    var parameters = new {
-                        RenterId = renter.RenterID,
-                        FirstName = renter.FirstName,
-                        LastName = renter.LastName,
-                        Email = renter.Email,
-                        Phone = renter.Phone
-                    };
-                    rowsAffected = connection
-                        .Execute(sqlUpdateRenterSproc, parameters, commandType: CommandType.StoredProcedure);
-                }
-                catch (RowNotInTableException ex)
-                {
-                    System.Console.WriteLine(ex.Message);
-                    throw;
-                }
-            }
-
-            return rowsAffected > 0;
-        }
-        */
 
         internal static Dictionary<string, List<Int32?>> GetAllForeignKeys()
         {

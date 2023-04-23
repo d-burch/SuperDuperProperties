@@ -2,7 +2,7 @@
 
 namespace PropertyManagement.Data
 {
-    public class DataUtility
+    public static class DataUtility
     {
         private static List<Property> FilterProperties(List<Property> properties)
         {
