@@ -74,6 +74,9 @@
                     <span>
                         @Html.DisplayFor(modelItem => owner.Phone)
                     </span>
+                    <span>
+                        <a asp-controller="Owner" asp-action="EditOwner" asp-route-id="@owner.OwnerID">Edit</a>
+                    </span>
                 </div>
                 <div>
                     <h5 class="property-subtitle">Current Lease</h5>
