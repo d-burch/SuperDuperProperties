@@ -31,6 +31,32 @@ namespace PropertyManagement.Controllers
             return View("EditRenter", renter); // Nothing changed, stay on Edit page
         }
 
+        // The id argument is the parent property's id, to use as the FK
+        public async Task<IActionResult> AddRenter(int id)
+        {
+            var renter = new Renter();
+
+            return View((renter, id));
+        }
+
+        public async Task<IActionResult> InsertRenter(Renter renter, IFormCollection collection)
+        {
+            var parentId = collection["leaseId"];
+
+            if (int.TryParse(parentId, out int leaseId) && leaseId > 0)
+            {
+                var insertSuccess = DataAccess.Insert<Renter>(renter, (leaseId, "Lease"));
+
+                if (insertSuccess)
+                {
+                    return RedirectToAction("Index", "Properties");
+                }
+            }
+
+            // Insert failed, stay on the page (add better indication to user that it failed)
+            return View("AddRenter", renter);
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

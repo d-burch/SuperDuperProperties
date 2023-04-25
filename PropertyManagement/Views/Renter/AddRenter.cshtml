@@ -1,0 +1,42 @@
+﻿@model ValueTuple<PropertyManagement.Models.Renter, int>
+
+@{
+    ViewData["Title"] = "Add Renter";
+
+    var renter = Model.Item1;
+    var leaseId = Model.Item2;
+}
+
+<h2>Add Renter</h2>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="InsertRenter" asp-for="Renter">
+            <input asp-for="@leaseId" class="hidden" />
+            <div class="form-group">
+                <label asp-for="@renter.FirstName" class="control-label"></label>
+                <input asp-for="@renter.FirstName" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="@renter.LastName" class="control-label"></label>
+                <input asp-for="@renter.LastName" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="@renter.Email" class="control-label"></label>
+                <input asp-for="@renter.Email" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="@renter.Phone" class="control-label"></label>
+                <input asp-for="@renter.Phone" class="form-control" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-controller="Properties" asp-action="Index">Back to Properties</a>
+</div>
+
