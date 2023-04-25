@@ -84,6 +84,9 @@
                     @if (property.CurrentLease == null)
                     {
                         <span class="vacant">Vacant</span>
+                        <span>
+                            <a class="vacant" asp-controller="Lease" asp-action="AddLease" asp-route-id="@property.PropertyID">Add&nbsp;New&nbsp;Lease</a>
+                        </span>
                     } else
                     {
                         <div>

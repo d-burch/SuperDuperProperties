@@ -1,0 +1,59 @@
+﻿@model ValueTuple<PropertyManagement.Models.Lease, int>
+
+@{
+    ViewData["Title"] = "Add Lease";
+
+    var lease = Model.Item1;
+    var propertyId = Model.Item2;
+}
+
+<h2>Add Lease</h2>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="InsertLease" asp-for="Lease">
+            <!-- Item2 is an int for the Property foreign key -->
+            <input asp-for="@propertyId" class="hidden" />
+            <div class="form-group">
+                <label asp-for="@lease.StartDate" class="control-label"></label>
+                <input asp-for="@lease.StartDate" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="@lease.EndDate" class="control-label"></label>
+                <input asp-for="@lease.EndDate" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="@lease.MonthlyRent" class="control-label"></label>
+                <input asp-for="@lease.MonthlyRent" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="@lease.RentOutstanding" class="control-label"></label>
+                <input asp-for="@lease.RentOutstanding" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="@lease.SecurityDepositAmount" class="control-label"></label>
+                <input asp-for="@lease.SecurityDepositAmount" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="@lease.SecurityDepositPaid" class="control-label"></label>
+                <input asp-for="@lease.SecurityDepositPaid" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="@lease.SecurityDepositCharges" class="control-label"></label>
+                <input asp-for="@lease.SecurityDepositCharges" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="@lease.SecurityDepositReturned" class="control-label"></label>
+                <input asp-for="@lease.SecurityDepositReturned" class="form-control" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-controller="Properties" asp-action="Index">Back to Properties</a>
+</div>
+

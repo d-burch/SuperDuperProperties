@@ -1,0 +1,54 @@
+@model ValueTuple<PropertyManagement.Models.Lease, int>
+
+@{
+    ViewData["Title"] = "Add Lease";
+}
+
+<h2>Add Lease</h2>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="InsertLease" asp-for="Lease">
+            <div class="form-group">
+                <label asp-for="Item1.StartDate" class="control-label"></label>
+                <input asp-for="Item1.StartDate" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Item1.EndDate" class="control-label"></label>
+                <input asp-for="Item1.EndDate" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Item1.MonthlyRent" class="control-label"></label>
+                <input asp-for="Item1.MonthlyRent" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Item1.RentOutstanding" class="control-label"></label>
+                <input asp-for="Item1.RentOutstanding" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Item1.SecurityDepositAmount" class="control-label"></label>
+                <input asp-for="Item1.SecurityDepositAmount" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Item1.SecurityDepositPaid" class="control-label"></label>
+                <input asp-for="Item1.SecurityDepositPaid" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Item1.SecurityDepositCharges" class="control-label"></label>
+                <input asp-for="Item1.SecurityDepositCharges" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Item1.SecurityDepositReturned" class="control-label"></label>
+                <input asp-for="Item1.SecurityDepositReturned" class="form-control" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-controller="Properties" asp-action="Index">Back to Properties</a>
+</div>
+

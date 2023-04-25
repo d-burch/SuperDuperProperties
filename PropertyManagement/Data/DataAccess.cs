@@ -173,7 +173,7 @@ namespace PropertyManagement.Data
             return rowsAffected > 0;
         }
 
-        internal static bool Insert<T>(T entity, (int?, string) fk)
+        internal static bool Insert<T>(T entity, (int?, string?) fk)
         {
             int rowsAffected = 0;
 

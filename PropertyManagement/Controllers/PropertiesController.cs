@@ -2,7 +2,6 @@
 using PropertyManagement.Data;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using Microsoft.IdentityModel.Tokens;
 
 namespace PropertyManagement.Controllers
 {
@@ -45,6 +44,7 @@ namespace PropertyManagement.Controllers
             var ownerEmail = collection["OwnerEmail"];
             var ownerId = DataAccess.GetOwnerIdByEmail(ownerEmail);
 
+            // Only insert if parent is found
             if (ownerId > 0)
             {
                 var insertSuccess = DataAccess.Insert<Property>(property, (ownerId, "Owner"));
