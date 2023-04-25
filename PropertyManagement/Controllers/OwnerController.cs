@@ -31,6 +31,24 @@ namespace PropertyManagement.Controllers
             return View("EditOwner", owner); // Nothing changed, stay on Edit page
         }
 
+        public async Task<IActionResult> AddOwner()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> InsertOwner(Owner owner)
+        {
+            var insertSuccess = DataAccess.Insert<Owner>(owner, (null, null));
+
+            if (insertSuccess)
+            {
+                return RedirectToAction("Index", "Properties");
+            }
+
+            return View("AddOwner", owner);
+        }
+
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
