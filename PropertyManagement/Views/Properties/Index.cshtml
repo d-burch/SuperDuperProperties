@@ -16,53 +16,54 @@
         @foreach (var property in owner.Properties)
         {
             <div class="individual-property">
-                <div>
-                    <span>@Html.DisplayFor(x => property.PropertyID)</span>
-                    <span>
-                        @Html.DisplayFor(x => property.AddressLine1),
-                    </span>
-                    @if (property.AddressLine2 != null)
-                    {
+                <div class="property-line-item">
+                    <div class="address-line">
                         <span>
-                            @Html.DisplayFor(x => property.AddressLine2),
+                            @Html.DisplayFor(x => property.AddressLine1),
                         </span>
-                    }
-                    <span>
-                        @Html.DisplayFor(x => property.City),
-                    </span>
-                    <span>
-                        @Html.DisplayFor(x => property.StateCode),
-                    </span>
-                    <span>
-                        @Html.DisplayFor(x => property.ZipCode)
-                    </span>
-                    @if (property.UnitNumber != null)
-                    {
+                        @if (property.AddressLine2 != null)
+                        {
+                            <span>
+                                @Html.DisplayFor(x => property.AddressLine2),
+                            </span>
+                        }
                         <span>
-                        Unit# @Html.DisplayFor(x => property.UnitNumber)
+                            @Html.DisplayFor(x => property.City),
                         </span>
-                    }
+                        <span>
+                            @Html.DisplayFor(x => property.StateCode),
+                        </span>
+                        <span>
+                            @Html.DisplayFor(x => property.ZipCode)
+                        </span>
+                        @if (property.UnitNumber != null)
+                        {
+                            <span>
+                            Unit# @Html.DisplayFor(x => property.UnitNumber)
+                            </span>
+                        }
+                    </div>
+                    <div>
+                        <span>
+                            Bedrooms: @Html.DisplayFor(x => property.Bedrooms)
+                        </span>
+                        <span>
+                            Bathrooms: @Html.DisplayFor(x => property.Bathrooms)
+                        </span>
+                        <span>
+                            Pets Allowed: @(property.PetsAllowed == true ? "Yes" : "No")
+                        </span>
+                        <span>
+                            Washer/Dryer: @(property.WasherDryer == true ? "Yes" : "No")
+                        </span>
+                        <span>
+                            Dishwasher: @(property.Dishwasher == true ? "Yes" : "No")
+                        </span>
+                    </div>
                 </div>
-                <div>
-                    <span>
-                        Bedrooms: @Html.DisplayFor(x => property.Bedrooms)
-                    </span>
-                    <span>
-                        Bathrooms: @Html.DisplayFor(x => property.Bathrooms)
-                    </span>
-                    <span>
-                        Pets Allowed: @(property.PetsAllowed == true ? "Yes" : "No")
-                    </span>
-                    <span>
-                        Washer/Dryer: @(property.WasherDryer == true ? "Yes" : "No")
-                    </span>
-                    <span>
-                        Dishwasher: @(property.Dishwasher == true ? "Yes" : "No")
-                    </span>
-                </div>
-                <div>
+                <hr class="property-item-spacer"/>
+                <div class="property-line-item">
                     <h5 class="property-subtitle">Owner</h5>
-                    <span>@Html.DisplayFor(x => owner.OwnerID)</span>
                     <span>
                         @Html.DisplayFor(x => owner.FirstName)
                     </span>
@@ -76,10 +77,11 @@
                         @Html.DisplayFor(modelItem => owner.Phone)
                     </span>
                     <span>
-                        <a asp-controller="Owner" asp-action="EditOwner" asp-route-id="@owner.OwnerID">Edit</a>
+                        <a class="edit-link" asp-controller="Owner" asp-action="EditOwner" asp-route-id="@owner.OwnerID">Edit</a>
                     </span>
                 </div>
-                <div>
+                <hr class="property-item-spacer"/>
+                <div class="property-line-item">
                     <h5 class="property-subtitle">Current Lease</h5>
                     @if (property.CurrentLease == null)
                     {
@@ -89,8 +91,7 @@
                         </span>
                     } else
                     {
-                        <div>
-                            <span>@Html.DisplayFor(x => property.CurrentLease.LeaseID)</span>
+                        <div class="sub-item">
                             <span>
                                 @Html.DisplayFor(x => property.CurrentLease.StartDate) - @Html.DisplayFor(x => property.CurrentLease.EndDate)
                             </span>
@@ -107,17 +108,16 @@
                                 Deposit Paid: @(property.CurrentLease.SecurityDepositPaid == true ? "Yes" : "No")
                             </span>
                             <span>
-                                <a asp-controller="Lease" asp-action="EditLease" asp-route-id="@property.CurrentLease.LeaseID">Edit</a>
+                                <a class="edit-link" asp-controller="Lease" asp-action="EditLease" asp-route-id="@property.CurrentLease.LeaseID">Edit</a>
                             </span>
                         </div>
 
-                        <div>
+                        <div class="sub-item">
                             <h5 class="property-subtitle">Renters</h5>
 
                             @foreach (var renter in property.CurrentLease.Renters)
                             {
                                 <div>
-                                    <span>@Html.DisplayFor(x => renter.RenterID)</span>
                                     <span>
                                         @Html.DisplayFor(x => renter.FirstName)
                                     </span>
@@ -131,7 +131,7 @@
                                         @Html.DisplayFor(modelItem => renter.Phone)
                                     </span>
                                     <span>
-                                        <a asp-controller="Renter" asp-action="EditRenter" asp-route-id="@renter.RenterID">Edit</a>
+                                        <a class="edit-link" asp-controller="Renter" asp-action="EditRenter" asp-route-id="@renter.RenterID">Edit</a>
                                     </span>
                                 </div>
                             }
@@ -141,9 +141,9 @@
                         </div>
                     }
                 </div>
-                <span>
+                <p class="property-link">
                     <a asp-controller="Properties" asp-action="EditProperty" asp-route-id="@property.PropertyID">Edit&nbsp;Property</a>
-                </span>
+                </p>
             </div>
         }
     }

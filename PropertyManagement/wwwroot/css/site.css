@@ -59,23 +59,52 @@ body {
 }
 
 .property-container {
-    background-color: rgba(0,0,0,.1);
+    background-color: rgba(0,20,45,0.2);
     min-height: 65vh;
     padding: 15px;
 }
 
+div.address-line {
+    font-size: 1.3em;
+}
+
 .individual-property {
     background-color: #fdfdfd;
-    margin: 10px 0px;
-    padding: 5px;
+    margin: 10px 0px 30px 0px;
+    padding: 25px 5px 5px 5px;
+    box-shadow: 0px 2px 5px 2px rgba(0,0,0,0.2);
+    border-radius: 4px;
 }
 
 h5.property-subtitle {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     margin: 15px 0px 5px 8px;
     font-weight: 500;
+    padding-left: 10px;
 }
 
 .hidden {
     display: none;
 }
+
+.form-group input.btn.btn-primary {
+    margin-top: 10px;
+}
+
+.property-line-item {
+    padding-left: 20px;
+}
+
+hr.property-item-spacer {
+    border: 1px solid #a7a7a7;
+}
+
+div.property-container p.property-link {
+    text-align: center;
+}
+
+div.individual-property a.edit-link {
+    margin-left: 10px;
+}
+
+
