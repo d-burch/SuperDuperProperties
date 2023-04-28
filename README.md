@@ -8,4 +8,4 @@ Written in ASP.NET using Razor pages and some vanilla CSS.  The application prov
 Uses the same controllers as the web api but with different endpoints add/update owners, properties, leases and tenants.  It also provides a basic search endpoint to find properties based on specific criteria such as number of bedrooms.
 
 ## Database
-The data access layer was written to use stored procedures in SQLServer.  Dapper is used for the ORM.  Because this project is so small, no database migration tool was used.  The table creation queries and store procedures are saved in the Data folder for convenience.
+The data access layer was written to use stored procedures in SQLServer.  Dapper is used for the ORM.  Because this project is so small, no database migration tool was used.  The table creation queries and stored procedures are saved in the Data folder for convenience.
