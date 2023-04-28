@@ -59,7 +59,7 @@ namespace PropertyManagement.Controllers
 
         #region API
 
-        [HttpPost]
+        [HttpPut]
         public bool AddRenter([FromQuery] int leaseId, [FromBody] Renter renter)
         {
             if (leaseId > 0)
@@ -70,6 +70,19 @@ namespace PropertyManagement.Controllers
             }
 
             return false;
+        }
+
+        [HttpPut]
+        public bool Update([FromQuery] int renterId, [FromBody] Renter renter)
+        {
+            if (renter.RenterID == 0)
+            {
+                renter.RenterID = renterId;
+            }
+
+            var updateApplied = DataAccess.Update<Renter>(renter);
+
+            return updateApplied;
         }
 
         #endregion API

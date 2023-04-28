@@ -60,7 +60,7 @@ namespace PropertyManagement.Controllers
 
         #region API
 
-        [HttpPost]
+        [HttpPut]
         public bool AddProperty([FromQuery] string ownerEmail, [FromBody] Property property)
         {
             var ownerId = DataAccess.GetOwnerIdByEmail(ownerEmail);
@@ -73,6 +73,19 @@ namespace PropertyManagement.Controllers
             }
 
             return false;
+        }
+
+        [HttpPut]
+        public bool Update([FromQuery] int propertyId, [FromBody] Property property)
+        {
+            if (property.PropertyID == 0)
+            {
+                property.PropertyID = propertyId;
+            }
+
+            var updateApplied = DataAccess.Update<Property>(property);
+
+            return updateApplied;
         }
 
         #endregion API

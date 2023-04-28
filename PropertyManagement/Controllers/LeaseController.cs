@@ -59,7 +59,7 @@ namespace PropertyManagement.Controllers
 
         #region API
 
-        [HttpPost]
+        [HttpPut]
         public bool AddLease([FromQuery] int propertyId, [FromBody] Lease lease)
         {
             //if (!DateTime.TryParse(lease.StartDate, out var _start) || !DateTime.TryParse(lease.EndDate, out var _end))
@@ -76,6 +76,20 @@ namespace PropertyManagement.Controllers
 
             return false;
         }
+
+        [HttpPut]
+        public bool Update([FromQuery] int leaseId, [FromBody] Lease lease)
+        {
+            if (lease.LeaseID == 0)
+            {
+                lease.LeaseID = leaseId;
+            }
+
+            var updateApplied = DataAccess.Update<Lease>(lease);
+
+            return updateApplied;
+        }
+
 
         #endregion API
 

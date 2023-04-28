@@ -50,27 +50,25 @@ namespace PropertyManagement.Controllers
 
         #region API
 
-        [HttpGet]
-        public Owner TestGetOwner(int id)
-        {
-            var owner = DataAccess.Get<Owner>(id);
-            System.Console.WriteLine();
-
-            return owner;
-        }
-
-        [HttpPost]
-        public void TestEditOwner([FromBody]Owner owner)
-        {
-            System.Console.WriteLine();
-        }
-
-        [HttpPost]
+        [HttpPut]
         public bool AddOwner([FromBody] Owner owner)
         {
             var insertSuccess = DataAccess.Insert<Owner>(owner, (null, null));
 
             return insertSuccess;
+        }
+
+        [HttpPut]
+        public bool Update([FromQuery] int ownerId, [FromBody] Owner owner)
+        {
+            if (owner.OwnerID == 0)
+            {
+                owner.OwnerID = ownerId;
+            }
+
+            var updateApplied = DataAccess.Update<Owner>(owner);
+
+            return updateApplied;
         }
 
         #endregion API
