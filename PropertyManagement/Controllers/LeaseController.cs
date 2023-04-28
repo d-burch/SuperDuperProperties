@@ -57,6 +57,28 @@ namespace PropertyManagement.Controllers
             return View("AddLease", lease);
         }
 
+        #region API
+
+        [HttpPost]
+        public bool AddLease([FromQuery] int propertyId, [FromBody] Lease lease)
+        {
+            //if (!DateTime.TryParse(lease.StartDate, out var _start) || !DateTime.TryParse(lease.EndDate, out var _end))
+            //{
+                //return false;
+            //}
+
+            if (propertyId > 0)
+            {
+                var insertSuccess = DataAccess.Insert<Lease>(lease, (propertyId, "Property"));
+
+                return insertSuccess;
+            }
+
+            return false;
+        }
+
+        #endregion API
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

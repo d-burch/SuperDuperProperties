@@ -57,6 +57,25 @@ namespace PropertyManagement.Controllers
             return View("AddRenter", renter);
         }
 
+        #region API
+
+        [HttpPost]
+        public bool AddRenter([FromQuery] int leaseId, [FromBody] Renter renter)
+        {
+            if (leaseId > 0)
+            {
+                var insertSuccess = DataAccess.Insert<Renter>(renter, (leaseId, "Lease"));
+
+                return insertSuccess;
+            }
+
+            return false;
+        }
+
+        #endregion API
+
+
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

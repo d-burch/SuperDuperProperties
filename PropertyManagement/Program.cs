@@ -1,6 +1,4 @@
 using Dapper.FluentMap;
-using Microsoft.EntityFrameworkCore;
-using PropertyManagement.Data;
 using PropertyManagement.Data.Mapping;
 
 namespace PropertyManagement

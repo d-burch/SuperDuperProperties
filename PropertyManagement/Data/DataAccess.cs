@@ -213,8 +213,11 @@ namespace PropertyManagement.Data
         // Todo: fix this signature
         internal static Dictionary<string, object> GetParameters<T>(T entity, bool includeId, (int?, string?) fk)
         {
-            List<PropertyInfo> typeProperties = typeof(T).GetProperties().ToList();
             var parameters = new Dictionary<string, object>();
+
+            if (entity == null) return parameters;
+
+            List<PropertyInfo> typeProperties = typeof(T).GetProperties().ToList();
 
             foreach (var property in typeProperties)
             {

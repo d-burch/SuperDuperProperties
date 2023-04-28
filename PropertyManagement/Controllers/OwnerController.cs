@@ -48,6 +48,33 @@ namespace PropertyManagement.Controllers
             return View("AddOwner", owner);
         }
 
+        #region API
+
+        [HttpGet]
+        public Owner TestGetOwner(int id)
+        {
+            var owner = DataAccess.Get<Owner>(id);
+            System.Console.WriteLine();
+
+            return owner;
+        }
+
+        [HttpPost]
+        public void TestEditOwner([FromBody]Owner owner)
+        {
+            System.Console.WriteLine();
+        }
+
+        [HttpPost]
+        public bool AddOwner([FromBody] Owner owner)
+        {
+            var insertSuccess = DataAccess.Insert<Owner>(owner, (null, null));
+
+            return insertSuccess;
+        }
+
+        #endregion API
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

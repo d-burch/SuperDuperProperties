@@ -58,6 +58,24 @@ namespace PropertyManagement.Controllers
             return View("AddProperty", property);
         }
 
+        #region API
+
+        [HttpPost]
+        public bool AddProperty([FromQuery] string ownerEmail, [FromBody] Property property)
+        {
+            var ownerId = DataAccess.GetOwnerIdByEmail(ownerEmail);
+
+            if (ownerId > 0)
+            {
+                var insertSuccess = DataAccess.Insert<Property>(property, (ownerId, "Owner"));
+
+                return insertSuccess;
+            }
+
+            return false;
+        }
+
+        #endregion API
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
