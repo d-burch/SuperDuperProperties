@@ -88,6 +88,35 @@ namespace PropertyManagement.Controllers
             return updateApplied;
         }
 
+        [HttpGet]
+        public IEnumerable<Owner> GetAllProperties()
+        {
+            return DataAccess.GetFullDataGraph();
+        }
+
+        [HttpGet]
+        public IEnumerable<Property> GetPropertiesByCriteria(
+            [FromQuery] string? city, [FromQuery] string? stateCode, [FromQuery] string? zipCode,
+            [FromQuery] int? bedrooms, [FromQuery] int? bathrooms, [FromQuery] bool? petsAllowed,
+            [FromQuery] bool? washerDryer, [FromQuery] bool? dishwasher)
+        {
+            Property.SearchCriteria criteria = new Property.SearchCriteria
+            {
+                City = city,
+                StateCode = stateCode,
+                ZipCode = zipCode,
+                Bedrooms = bedrooms,
+                Bathrooms = bathrooms,
+                PetsAllowed = petsAllowed,
+                WasherDryer = washerDryer,
+                Dishwasher = dishwasher
+            };
+
+            var results = DataAccess.GetFullGraphByPropertyCriteria(criteria);
+
+            return results;
+        }
+
         #endregion API
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

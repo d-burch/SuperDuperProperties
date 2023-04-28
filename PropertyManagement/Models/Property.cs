@@ -25,5 +25,17 @@
         public string? UnitNumber { get; set; }
         public bool? WasherDryer { get; set; }
         public bool? Dishwasher { get; set; }
+
+        public struct SearchCriteria
+        {
+            public string? City { get; set; }
+            public string? StateCode { get; set; }
+            public string? ZipCode { get; set; }
+            public int? Bedrooms { get; set; }
+            public int? Bathrooms { get; set; }
+            public bool? PetsAllowed { get; set; }
+            public bool? WasherDryer { get; set; }
+            public bool? Dishwasher { get; set; }
+        }
     }
 }

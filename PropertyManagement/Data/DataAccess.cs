@@ -16,6 +16,7 @@ namespace PropertyManagement.Data
         private const string sqlUpdateSproc = "Update";
         private const string sqlInsertSproc = "Insert";
         private const string sqlGetOwnerIdByEmailSproc = "GetOwnerIdByEmail";
+        private const string sqlSearchPropertiesSproc = "SearchProperties";
         private const string sqlForeignKeys =
             "SELECT o.OwnerID, PropertyID, p.Property_OwnerId, l.LeaseID, l.Lease_PropertyId, RenterID, r.Renter_LeaseId" +
             " FROM Owner AS o" +
@@ -84,8 +85,6 @@ namespace PropertyManagement.Data
                 allOwners.RemoveAll(owner => owner == null);
 
                 DataUtility.FilterPropertiesAndLeases(allOwners);
-
-                System.Console.WriteLine();
 
                 return allOwners;
             }
@@ -210,8 +209,21 @@ namespace PropertyManagement.Data
             return rowsAffected > 0;
         }
 
+        internal static List<Property> GetFullGraphByPropertyCriteria(Property.SearchCriteria criteria)
+        {
+            using (var connection = new SqlConnection(connectionString))
+            {
+                var parameters = GetParameters<Property.SearchCriteria>(criteria, false, (null, null));
+                var properties = connection.Query<Property>(
+                    sqlSearchPropertiesSproc, parameters, commandType: CommandType.StoredProcedure).ToList();
+
+                return properties;
+            }
+        }
+
+
         // Todo: fix this signature
-        internal static Dictionary<string, object> GetParameters<T>(T entity, bool includeId, (int?, string?) fk)
+        private static Dictionary<string, object> GetParameters<T>(T entity, bool includeId, (int?, string?) fk)
         {
             var parameters = new Dictionary<string, object>();
 
@@ -238,7 +250,7 @@ namespace PropertyManagement.Data
             return parameters;
         }
 
-        internal static Dictionary<string, List<Int32?>> GetAllForeignKeys()
+        private static Dictionary<string, List<Int32?>> GetAllForeignKeys()
         {
             var foreignKeysDictionary = new Dictionary<string, List<Int32?>>();
 
